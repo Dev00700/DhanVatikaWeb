@@ -104,6 +104,14 @@
     }
 }
 
+ .filter-group {
+    display: flex !important;
+    flex-direction: row !important;
+    gap:12px;
+}
+
+
+
 </style>
 
 <div class="inner-header-area">
@@ -151,7 +159,18 @@
                                              }
                                         </select>
                                 }
+                                <select id="ddlstatus">
+                                             <option value="0">All</option>
+                                             <option value="1">Available</option>
+                                             <option value="2">PreBooked</option>
+                                             <option value="4">Sold</option>
+                                             <option value="5">Registry</option>
+                                             <option value="6">Hold</option>
+                                           
+                                          
+                                        </select>
                             </div>
+                             
                            
                             <div class="search-button">
                                 <button id="search-sale" type="button" onclick="SearchPlot();">Search <span class="arrow1"><i class="fa-solid fa-arrow-right"></i></span><span class="arrow2"><i class="fa-solid fa-arrow-right"></i></span></button>
@@ -286,18 +305,42 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
+@{
+    int locationid = 0; int status = 0;
+    if(ViewBag.LocationId !=null || ViewBag.LocationId != "")
+    {
+           locationid = ViewBag.LocationId;
+    }
+      if(ViewBag.Status !=null || ViewBag.Status != "")
+    {
+           status = ViewBag.Status;
+    }
+  
+}
    <script>
 
     document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
         new bootstrap.Popover(el);
     });
 
-
-       function SearchPlot(){
+ function SearchPlot()
+    {
 var locationId= document.getElementById("ddllocation").value;
-window.location.href="/PlotAvailblity?LocationId="+locationId+"";
+var status= document.getElementById("ddlstatus").value;
 
-}                                            
+window.location.href="/PlotAvailblity?LocationId="+locationId+"&&Status="+status+"";
+
+}    
+
+    if(@locationid !=0)
+    {
+   document.getElementById("ddllocation").value = @locationid
+    }
+    
+    if(@status !=0)
+    {
+   document.getElementById("ddlstatus").value = @status
+    }
+
         
-                                                </script>                                      
+ </script>                                      

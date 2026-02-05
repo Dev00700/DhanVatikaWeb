@@ -17,8 +17,10 @@ namespace DhanVatikaWeb.Controllers
                .Build();
             baseurl = configuration["ApiBaseUrl"];
         }
-        public async Task<IActionResult> Index(int LocationId)
+        public async Task<IActionResult> Index(int LocationId,int status)
         {
+            ViewBag.LocationId = LocationId;
+            ViewBag.Status = status;
             PlotResponseDto plotResponseDto = new PlotResponseDto();
             var request = new CommonRequestDto<PtotWebReq>
             {
@@ -28,7 +30,8 @@ namespace DhanVatikaWeb.Controllers
                 UserId = 1,
                 Data= new PtotWebReq
                 {
-                    LocationId= LocationId
+                    LocationId= LocationId,
+                    Status= status
                 }
             };
             string plotapiUrl = baseurl + "Web/GetPlotWebListService";
@@ -60,6 +63,7 @@ namespace DhanVatikaWeb.Controllers
             {
                 return View(plot.Data);
             }
+           
             return View(null);
         }
     }
