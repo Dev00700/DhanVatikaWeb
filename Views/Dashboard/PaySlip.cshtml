@@ -1,0 +1,101 @@
+﻿@model DhanVatikaWeb.Models.CustomerReceiptResDto
+@{
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Incoming Payment</title>
+</head>
+<body onload="window.print();"
+      style="font-family: 'Courier New', monospace; font-size: 14px; margin: 20px;">
+
+    <div style="width: 100%; border: 1px solid #000; padding: 3px; position: relative;">
+        <div class="original-label" style="position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 6px;">
+            Original for Recipient
+        </div>
+        <div style="text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 5px;">Payment Receipt</div>
+        <div style="border-bottom: 2px solid #000; margin: 4px 0px 1px 0;"></div>
+
+        <!-- Company + Consignee + Buyer -->
+        <div style="display: flex; border-bottom: 1px solid #000; text-align: center;">
+            <div style="flex: 1; padding: 5px; border-right: 1px solid #000;">
+
+                <div style="display: inline-block; gap: 10px; align-items: center; margin-bottom: 6px;">
+                    <img src="~/assets/img/logo/logo1.png" alt="Company Logo" style="height: 45px;" />
+                    <div>
+                        <strong>DhanVatikaa  Developers Pvt. Ltd.</strong>
+                    </div>
+                </div>
+
+                <div style=" font-size: 13px; line-height: 1.4;">
+                    @Model.Address<br>
+                    Contact: @Model.Mobile <br>
+                </div>
+            </div>
+
+
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
+            <tbody>
+
+                  <tr>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;"><strong>Customer Name</strong> </td>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;">@Model.CustomerName</td>
+                </tr>
+
+
+                <tr>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;"><strong>EMI NO</strong> </td>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;">@Model.EmiNo</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;"><strong>EMI Date</strong> </td>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;">@Model.EMIDate.ToString("dd-MM-yyyy")</td>
+                </tr>
+
+              
+
+                <tr>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;"><strong>Plot Name</strong> </td>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;">@Model.PlotName  (@Model.Plot_Code)</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;"><strong>Paid Date</strong> </td>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;">@Model.PaidDate.ToString("dd-MM-yyyy")</td>
+                </tr>
+
+
+              
+
+                <tr>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;"><strong>Amount</strong> </td>
+                    <td style="border: 1px solid #000; padding: 4px; font-size: 13px;text-align:right">@Model.PaidAmount /-</td>
+                </tr>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+
+      @*   <p><strong>Amount in words:</strong> ${_amount}</p> *@
+
+        <div style="text-align: right; margin-top: 50px;">
+            for DhanVatikaa Developers  Pvt. Ltd.<br><br>
+            Authorised Signatory
+        </div>
+
+        <p style="text-align: center;font-size: 12px; ">This is a Computer Generated </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,384 @@
+﻿@model DhanVatikaWeb.Models.PlotResponseDto
+@{
+    ViewData["Title"] = "Property Detail Page";
+}
+
+<div class="inner-header-area">
+    <div class="containe-fluid">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="inner-header heading1">
+            <h2>Properties Details </h2>
+            <div class="space28"></div>
+            <p><a href="">Home</a> <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none">
+                <path d="M1.5 1.74997L7.75 7.99997L1.5 14.25" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg> <span>Listing</span> <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none">
+                <path d="M1.5 1.74997L7.75 7.99997L1.5 14.25" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg> @Model.PlotName</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="inner-images">
+
+              @if(@Model.PlotImage != null && Model.PlotImage.Count()>0){
+                        <img src="@Model.PlotImage[0].Image" alt="">
+                    }
+                    else
+                    {
+                        <img src="~/assets/img/all-images/others/noimage.png" alt="">
+                    }
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+@if (Model != null)
+{
+
+    <div class="properties2-details sp1">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="all-galler-images2" data-aos="fade-left" data-aos-duration="1000">
+
+                        @if(Model.PlotImage != null && Model.PlotImage.Count()>0)
+                        {
+                            foreach(var plot in Model.PlotImage)
+                            {
+                                  <div class="big-img">
+                            <img src="@plot.Image" alt="dhanvatika">
+                                </div>
+                            }
+                        }
+                        else
+                        {<div class="big-img">
+                            <img src="~/assets/img/all-images/others/noimage.png" alt="dhanvatika">
+                                </div>
+                            
+                        }
+
+                    </div>
+                    <div class="bottom-galler-images2" data-aos="fade-right" data-aos-duration="1100">
+                       
+                        @if (Model.PlotImage != null  && Model.PlotImage.Count()>0)
+                        {
+                            foreach (var plot in Model.PlotImage)
+                            {
+                                <div class="small-img">
+                                    <img src="@plot.Image" alt="Dhanvatika">
+                                </div>
+                            }
+                        }
+                        else{ <div class="small-img">
+                                    <img src="~/assets/img/all-images/others/noimage.png" alt="Dhanvatika">
+                                </div>}
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="heading1">
+                        <div class="content-area">
+                            <a  class="title">@Model.PlotName</a>
+                            <div class="space32"></div>
+
+
+                            
+                            <p>
+                                <span class="s-tiltle2">Location:</span><span>
+                                    
+                                </span> @Model.Address
+                            </p>
+                            <br/>
+                             <p>
+                                <span class="s-tiltle2">Area Size:</span><span>
+                                   
+                                </span> @Model.AreaSize @Model.UnitTypeName
+                            </p>
+
+                            <br/>
+                               <p>
+                                <span class="s-tiltle2"> Type:</span><span>
+                                   
+                                </span> @Model.PlotType
+                            </p>
+
+                               <br/>
+                               <p>
+                                <span class="s-tiltle2"> Status:</span><span>
+                                   
+                                </span>  @Model.PlotStatus
+                            </p>
+                               <br/>
+                               <p>
+                                <span class="s-tiltle2">Facing:</span><span>
+                                   
+                                </span>  @Model.Facing
+                            </p>
+
+
+
+                        @*     <div class="space24"></div>
+                            <div class="property-other-widget">
+                          
+                                <div class="space32"></div>
+                                <div class="btn-area">
+                                    <div class="nm-btn">
+                                        <p><a href="#">Rs. @Model.Price</a> /For Sale</p>
+                                    </div>
+                                  
+                                </div>
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="property-inner-section-find">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="property-mapgrid-area">
+            <div class="space32"></div>
+            <div class="row">
+              
+              <div class="col-lg-12">
+                <div class="property-widget-sidebar">
+                 
+                  <div class="space40"></div>
+                  <div class="padding-side">
+                    <h3>About This Property</h3>
+                    <div class="space24"></div>
+                    <p>@Model.Description</p>
+                    <div class="space30"></div>
+                    <h3>What Makes This Property Special</h3>
+                    <div class="space12"></div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="others-box">
+                          <img src="assets/img/icons/check1.svg" alt="DhanVatika">
+                          <div class="text">
+                            <p><span>Modern Interior & Finishes:</span> High-quality materials and contemporary designs.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="others-box">
+                                                    <img src="assets/img/icons/check1.svg" alt="DhanVatika">
+                          <div class="text">
+                            <p><span>Spacious Layout:</span> Open-concept living areas and well-planned spaces.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="others-box">
+                                                    <img src="assets/img/icons/check1.svg" alt="DhanVatika">
+                          <div class="text">
+                            <p><span> Prime Location:</span> Close to schools shopping, and public transport location.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="others-box">
+                                                    <img src="assets/img/icons/check1.svg" alt="DhanVatika">
+                          <div class="text">
+                            <p><span>Energy Efficient:</span> Equipped with smart home features and sustainable elements.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="others-box">
+                                                    <img src="assets/img/icons/check1.svg" alt="DhanVatika">
+                          <div class="text">
+                            <p><span>Secure & Private: </span> Gated community security features for peace of mind.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="space30"></div>
+                 
+                    <h3>Everything You Need, Just Steps Away</h3>
+                    <div class="space12"></div>
+                    <div class="row">
+                                            @if (Model.PlotAmenties != null && Model.PlotAmenties.Count > 0)
+                                            {
+                                                foreach (var data in Model.PlotAmenties)
+                                                {
+                                                    <div class="col-lg-6">
+                                                        <div class="others-box">
+                                                            <img src="assets/img/icons/check1.svg" alt="">
+                                                            <div class="text">
+                                                                <p><span>@data.amentyname:</span> @data.amentydescr</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
+                    </div>
+                    <div class="space30"></div>
+                    <h3>Schedule A Viewing Book a Tour Today!</h3>
+                    <div class="space24"></div>
+                    <p>Interested in this property? Contact us today to schedule a viewing and experience it for yourself. Our real estate experts are here to guide you every step of the way.</p>
+                    <div class="space32"></div>
+                    <div class="contact-boxarea ms-0">
+                      <h3>Get In Touch Now</h3>
+                      <div class="space8"></div>
+                     <div class="row">
+                        <div class="col-lg-6">
+                          <div class="input-area">
+                            <input type="text" placeholder="Your Name" id="txtname">
+                          </div>
+                        </div>
+                     
+                        <div class="col-lg-6">
+                          <div class="input-area">
+                            <input type="number" placeholder="Phone Number "  maxlength="10" id="txtphoneno">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="input-area">
+                            <input type="email" placeholder="Email Address" maxlength="100" id="txtemail">
+                          </div>
+                        </div>
+                        <div class="col-lg-12">
+                          <div class="input-area">
+                            <textarea placeholder="Your Message" id="txtmessage"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-lg-12">
+                          <div class="space4"></div>
+                          <div class="input-area">
+                            <button type="button" onclick="submitenquiry('@Model.PlotId');"  class="vl-btn1">Submit Now <span class="arrow1"><i class="fa-solid fa-arrow-right"></i></span><span class="arrow2"><i class="fa-solid fa-arrow-right"></i></span></button>
+                          </div>
+                        </div>
+
+                                            <div id="responseMessage" class="mt-3 text-center"></div>
+
+
+                      </div>
+                    </div>
+                    <div class="space16"></div>
+                    <div class="contact-box">
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none">
+                          <path
+                            d="M5.83333 24.0013L12.5 16.0013M27.1667 24.0013L20.5 16.0013M4.5 10.668L14.1333 17.0901C14.9887 17.6604 15.4163 17.9456 15.8785 18.0562C16.2871 18.1542 16.7129 18.1542 17.1215 18.0562C17.5837 17.9456 18.0113 17.6604 18.8667 17.0901L28.5 10.668M8.76667 25.3346H24.2333C25.7268 25.3346 26.4736 25.3346 27.044 25.044C27.5457 24.7884 27.9537 24.3804 28.2093 23.8786C28.5 23.3082 28.5 22.5614 28.5 21.068V10.9346C28.5 9.44117 28.5 8.69442 28.2093 8.124C27.9537 7.62222 27.5457 7.21428 27.044 6.95862C26.4736 6.66797 25.7268 6.66797 24.2333 6.66797H8.76667C7.2732 6.66797 6.52645 6.66797 5.95603 6.95862C5.45425 7.21428 5.04631 7.62222 4.79065 8.124C4.5 8.69442 4.5 9.44116 4.5 10.9346V21.068C4.5 22.5614 4.5 23.3082 4.79065 23.8786C5.04631 24.3804 5.45425 24.7884 5.95603 25.044C6.52645 25.3346 7.27319 25.3346 8.76667 25.3346Z"
+                            stroke="#ED8438" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg></span>
+                      <div class="text">
+                        <p>Our Email</p>
+                        <div class="space8"></div>
+                        <a href="#">dhanvatikaarealestate@gmail.com </a>
+                      </div>
+                    </div>
+                    <div class="contact-box">
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                          <path
+                            d="M18.7333 7.99935C20.0357 8.25344 21.2325 8.89036 22.1708 9.8286C23.1091 10.7668 23.746 11.9637 24 13.266M18.7333 2.66602C21.4391 2.9666 23.9621 4.17824 25.8884 6.10203C27.8145 8.0258 29.0295 10.5474 29.3333 13.2527M24.6667 27.9993C13.2528 27.9993 4 18.7465 4 7.33268C4 6.81772 4.01884 6.30716 4.05585 5.80166C4.09833 5.22151 4.11957 4.93144 4.2716 4.66739C4.39752 4.4487 4.62067 4.2413 4.84797 4.13168C5.12241 3.99935 5.44251 3.99935 6.08268 3.99935H9.83909C10.3774 3.99935 10.6466 3.99935 10.8774 4.08795C11.0812 4.16622 11.2627 4.29334 11.4059 4.45815C11.568 4.64472 11.66 4.8977 11.844 5.40363L13.3988 9.67942C13.6128 10.2681 13.7199 10.5624 13.7017 10.8416C13.6857 11.0878 13.6016 11.3248 13.4589 11.5261C13.2971 11.7544 13.0286 11.9155 12.4915 12.2378L10.6667 13.3327C12.2692 16.8645 15.1335 19.7325 18.6667 21.3327L19.7616 19.5079C20.0839 18.9707 20.2449 18.7021 20.4732 18.5404C20.6745 18.3977 20.9115 18.3136 21.1577 18.2976C21.4369 18.2795 21.7313 18.3865 22.32 18.6005L26.5957 20.1553C27.1016 20.3393 27.3547 20.4313 27.5412 20.5935C27.706 20.7367 27.8332 20.9181 27.9113 21.122C28 21.3527 28 21.6219 28 22.1603V25.9167C28 26.5568 28 26.877 27.8676 27.1514C27.758 27.3787 27.5507 27.6019 27.332 27.7278C27.0679 27.8798 26.7779 27.9009 26.1977 27.9435C25.6921 27.9805 25.1816 27.9993 24.6667 27.9993Z"
+                            stroke="#ED8438" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg></span>
+                      <div class="text">
+                        <p>Call Us</p>
+                        <div class="space8"></div>
+                        <a href="#">XXXXXXXX90
+                         </a>
+                      </div>
+                    </div>
+                    <div class="contact-box">
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                          <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M16.329 27.958C17.8625 26.5665 19.2817 25.0541 20.573 23.4353C23.293 20.018 24.9477 16.6487 25.0597 13.6527C25.104 12.4351 24.9024 11.221 24.4671 10.0831C24.0317 8.94509 23.3714 7.90654 22.5257 7.02947C21.6799 6.15239 20.6661 5.45477 19.5447 4.97829C18.4233 4.5018 17.2174 4.25622 15.999 4.25622C14.7806 4.25622 13.5747 4.5018 12.4533 4.97829C11.3319 5.45477 10.3181 6.15239 9.47235 7.02947C8.62661 7.90654 7.96634 8.94509 7.53095 10.0831C7.09557 11.221 6.89402 12.4351 6.93834 13.6527C7.05167 16.6487 8.70767 20.018 11.4263 23.4353C12.7176 25.0541 14.1369 26.5665 15.6703 27.958C15.8179 28.0913 15.9277 28.1882 15.9997 28.2487L16.329 27.958ZM15.0157 29.5114C15.0157 29.5114 5.33301 21.3567 5.33301 13.3327C5.33301 10.5037 6.45681 7.7906 8.4572 5.79021C10.4576 3.78982 13.1707 2.66602 15.9997 2.66602C18.8287 2.66602 21.5418 3.78982 23.5421 5.79021C25.5425 7.7906 26.6663 10.5037 26.6663 13.3327C26.6663 21.3567 16.9837 29.5114 16.9837 29.5114C16.445 30.0074 15.5583 30.002 15.0157 29.5114ZM15.9997 17.066C16.9898 17.066 17.9394 16.6727 18.6395 15.9725C19.3397 15.2724 19.733 14.3228 19.733 13.3327C19.733 12.3425 19.3397 11.393 18.6395 10.6928C17.9394 9.99268 16.9898 9.59935 15.9997 9.59935C15.0095 9.59935 14.0599 9.99268 13.3598 10.6928C12.6597 11.393 12.2663 12.3425 12.2663 13.3327C12.2663 14.3228 12.6597 15.2724 13.3598 15.9725C14.0599 16.6727 15.0095 17.066 15.9997 17.066ZM15.9997 18.666C14.5852 18.666 13.2286 18.1041 12.2284 17.1039C11.2282 16.1037 10.6663 14.7472 10.6663 13.3327C10.6663 11.9182 11.2282 10.5616 12.2284 9.56145C13.2286 8.56125 14.5852 7.99935 15.9997 7.99935C17.4142 7.99935 18.7707 8.56125 19.7709 9.56145C20.7711 10.5616 21.333 11.9182 21.333 13.3327C21.333 14.7472 20.7711 16.1037 19.7709 17.1039C18.7707 18.1041 17.4142 18.666 15.9997 18.666Z"
+                            fill="#ED8438" />
+                        </svg></span>
+                      <div class="text">
+                        <p>Visit us</p>
+                        <div class="space8"></div>
+                        <a href="#">DhanVatikaa Address</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+     
+
+  <!--===== HERO AREA ENDS =======-->
+  <!--===== PROPERTIES AREA STARTS =======-->
+  
+  <!--===== PROPERTIES AREA ENDS =======-->
+  <!--===== PROPERTY AREA STARTS =======-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function submitenquiry(plotId){
+        if(plotId== null || plotId==0)
+        {
+           alert("plot not selected");
+           return false;
+        }
+
+        var name = $("#txtname").val();
+        var mobileno= $("#txtphoneno").val();
+        var email= $("#txtemail").val();
+        var messg= $("#txtmessage").val();
+         $('#responseMessage').html("");
+            
+
+        if(name== null || name== undefined || name==""){
+             $('#responseMessage')
+              .html('<div class="alert alert-danger">Please enter Name</div>');
+            return false;
+        }
+        if(mobileno == null || mobileno== undefined || mobileno== ""){
+             $('#responseMessage')
+              .html('<div class="alert alert-danger">Please enter Mobile No</div>');
+            return false;
+        }
+        if(email == null || email== undefined || email ==""){
+            $('#responseMessage')
+              .html('<div class="alert alert-danger">Please enter email</div>');
+            return false;
+        }
+        if(messg == null || messg== undefined || messg ==""){
+              $('#responseMessage')
+              .html('<div class="alert alert-danger">Please enter message</div>');
+            return false;
+        }
+
+        var formData = {PlotId: plotId,Name: name, Mobile: mobileno, Email: email,  Remarks: messg};
+
+         $.ajax({
+          url: '/PlotDetail/SendEnquiry', // adjust controller name if different
+          type: 'POST',
+          data: formData,
+          success: function (response) {
+            if (response.success) {
+              $('#responseMessage')
+                .html('<div class="alert alert-success">' + response.message + '</div>');
+                 $("#txtname").val("");
+         $("#txtphoneno").val("");
+       $("#txtemail").val("");
+       $("#txtmessage").val("");// clear form
+            } else {
+              $('#responseMessage')
+                .html('<div class="alert alert-danger">' + response.message + '</div>');
+            }
+          },
+          error: function () {
+            $('#responseMessage')
+              .html('<div class="alert alert-danger">An error occurred while saving data.</div>');
+          }
+        });
+    }
+</script>
+  <!--===== PROPERTY AREA ENDS =======-->
+  <!--===== PROPERTY AREA STARTS =======-->

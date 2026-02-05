@@ -1,0 +1,303 @@
+﻿@model IEnumerable<DhanVatikaWeb.Models.PlotResponseDto>
+
+
+    <style>
+
+        .status-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.legend-box {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+/* Colors */
+.legend-box.available { background: #28a745; }   /* Green */
+.legend-box.booked { background: #fd7e14; }      /* Red   */
+.legend-box.hold { background: #dc3545; }        /* Orange */
+.legend-box.sold { background: #6c757d; }        /* Gray */
+.legend-box.comingsoon { background: #0d6efd; }  /* Blue */
+
+/* Responsive */
+@@media(max-width: 576px) {
+    .status-legend span {
+        width: 50%;
+    }
+}
+
+
+
+     
+    .card{display:inline-block;}
+
+    
+   .status-head-available { background: #28a745 }   /* Green */
+.status-head-booked { background: #fd7e14; }      /* Red   */
+.status-head-hold { background: #dc3545; }        /* Orange */
+.status-head-sold { background: #6c757d; }        /* Gray */
+.status-head-comingsoon { background: #0d6efd; }  /* Blue */
+.status-head-default { background: #fff; }
+
+   /* Popover container */
+.popover {
+    max-width: 350px;          /* popover width */
+    border-radius: 10px;       /* rounded edges */
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    padding: 0;
+}
+
+/* Title bar of popover */
+.popover-header {
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Scrollable Body */
+.popover-body {
+    max-height: 250px;         /* लंबा content हो तो scroll */
+    overflow-y: auto;
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Custom table look inside popover */
+.popover-body b {
+    color: #0a58ca;
+    font-weight: 600;
+}
+
+/* Key-value nice spacing */
+.popover-body br {
+    margin-bottom: 4px;
+}
+
+/* Card hover effect */
+.plot-info {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.plot-info:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Responsive styling */
+@@media (max-width: 576px) {
+    .popover {
+        max-width: 95%;
+    }
+}
+
+</style>
+
+<div class="inner-header-area">
+    <div class="containe-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="inner-header heading1">
+                    <h2>Plot Avaliblity</h2>
+                    <div class="space28"></div>
+                    <p>
+                        <a href="/Home">Home</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none">
+                            <path d="M1.5 1.74997L7.75 7.99997L1.5 14.25" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg> <span>Plot  </span>
+                      
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="inner-images">
+                    <img src="assets/img/all-images/case/case-img4.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="others-section-area others2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="property-tab-section b-bg1">
+                    <div class="tab-content1" id="for-sale">
+                        <div class="filters">
+                            <div class="filter-group">
+
+                                @if (ViewBag.LocationList != null)
+                                {
+                                        <select id="ddllocation">
+                                             <option value="">Select Location</option>
+                                           @foreach (var location in ViewBag.LocationList)
+                                    {
+                                        
+                                            <option value="@location.LocationId">@location.LocationName</option>
+                                             }
+                                        </select>
+                                }
+                            </div>
+                           
+                            <div class="search-button">
+                                <button id="search-sale" type="button" onclick="SearchPlot();">Search <span class="arrow1"><i class="fa-solid fa-arrow-right"></i></span><span class="arrow2"><i class="fa-solid fa-arrow-right"></i></span></button>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="property-half-grid-area sp1">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+            <div class="status-legend mb-3">
+    <span><span class="legend-box available"></span> Available</span>
+    <span><span class="legend-box booked"></span>Pre Booked</span>
+    <span><span class="legend-box hold"></span> Hold</span>
+    <span><span class="legend-box sold"></span> Sold</span>
+    <span><span class="legend-box comingsoon"></span> Registry</span>
+    </div>
+</div>
+        </div>
+        <div class="row">
+                
+                             
+                                <div class="col-md-12">
+
+                                @if(Model != null)
+                                {
+                                 
+                                    foreach(var plot in Model)
+                                    {
+                                             string colorClass = plot.Status switch
+           {
+               1 => "status-head-available",
+               2 => "status-head-booked",
+               6 => "status-head-hold",
+               4 => "status-head-sold",
+               5 => "status-head-comingsoon",
+               _ => "status-head-default"
+           };
+
+                        @if (plot.Status == 1)
+                        {
+                              <a href="PlotDetail?plotdetailId=@plot.PlotId" >
+                                        <div class="card col-md-2 mb-3">
+                <div class=" plot-info @colorClass" data-bs-toggle="popover"
+                     data-bs-trigger="hover focus"
+                     data-bs-html="true"
+                     data-bs-placement="top"
+                     data-bs-content="
+@if(!string.IsNullOrEmpty(@plot.SubPlotCode)){
+                       <b>Sub Plot Code:</b> @plot.SubPlotCode <br>
+}
+                       <b>Plot Name:</b> @plot.PlotName <br>
+                       <b>Status:</b> @plot.PlotStatus <br>
+                      @*  <b>Price:</b> @plot.Price <br> *@
+                       <b>Area:</b> @plot.AreaSize @plot.UnitTypeName <br>
+                       <b>Facing:</b> @plot.Facing <br>
+                     ">
+                    <div class="card-body text-center">
+                        @{var data = "";}
+                                            @if (string.IsNullOrEmpty(plot.SubPlotCode)){
+                                                data = "<h6 class='card-title'>"+plot.PlotCode+"</h6>";
+                                            }
+                                            else
+                                            {
+                                                 data = "<h6 class='card-title'>"+plot.PlotCode +'-' +plot.SubPlotCode +"</h6>";
+                                            }
+                        @Html.Raw(data)
+                    </div>
+                </div>
+            </div></a>
+                        }
+                        else
+                        {
+                                <div class="card col-md-2 mb-3">
+                <div class=" plot-info @colorClass" data-bs-toggle="popover"
+                     data-bs-trigger="hover focus"
+                     data-bs-html="true"
+                     data-bs-placement="top"
+                     data-bs-content="
+@if(!string.IsNullOrEmpty(@plot.SubPlotCode)){
+                       <b>Sub Plot Code:</b> @plot.SubPlotCode <br>
+}
+                       <b>Plot Name:</b> @plot.PlotName <br>
+                       <b>Status:</b> @plot.PlotStatus <br>
+                       @* <b>Price:</b> @plot.Price <br> *@
+                       <b>Area:</b> @plot.AreaSize @plot.UnitTypeName <br>
+                       <b>Facing:</b> @plot.Facing <br>
+                     ">
+                    <div class="card-body text-center">
+                        @{var data = "";}
+                                            @if (string.IsNullOrEmpty(plot.SubPlotCode)){
+                                                data = "<h6 class='card-title'>"+plot.PlotCode+"</h6>";
+                                            }
+                                            else
+                                            {
+                                                 data = "<h6 class='card-title'>"+plot.PlotCode +'-' +plot.SubPlotCode +"</h6>";
+                                            }
+                        @Html.Raw(data)
+
+                    </div>
+                </div>
+            </div>
+                        }
+
+         
+
+
+                                          @*  <div class="col-md-2 card">
+  <div class="card-body">
+    <h5 class="card-title">@plot.PlotCode</h5>
+  </div>
+</div>
+ *@
+
+                                    }
+                                }
+
+                            </div>
+                               
+            </div>
+           
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+   <script>
+
+    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+        new bootstrap.Popover(el);
+    });
+
+
+       function SearchPlot(){
+var locationId= document.getElementById("ddllocation").value;
+window.location.href="/PlotAvailblity?LocationId="+locationId+"";
+
+}                                            
+        
+                                                </script>                                      
