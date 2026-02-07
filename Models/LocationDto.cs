@@ -125,11 +125,11 @@
         public string Plot_Code { get; set; }
         public string PlotName { get; set; }
         public string Description { get; set; }
-        public int LocationId { get; set; }
-        public string Address { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
-        public decimal AreaSize { get; set; }
+        public int? LocationId { get; set; }
+        public string? Address { get; set; }
+        public string? Latitude { get; set; }
+        public string? Longitude { get; set; }
+        public decimal? AreaSize { get; set; }
         public int UnitTypeId { get; set; }
         public decimal Price { get; set; }
         public int Status { get; set; }

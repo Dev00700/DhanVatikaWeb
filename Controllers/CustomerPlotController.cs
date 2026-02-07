@@ -19,7 +19,7 @@ namespace DhanVatikaWeb.Controllers
               .Build();
             baseurl = configuration["ApiBaseUrl"];
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int plotId)
         {
             var customerId = HttpContext.Session.GetString("CustomerId");
             var request = new CommonRequestDto<PlotForCustomerRequestDto>
@@ -41,8 +41,14 @@ namespace DhanVatikaWeb.Controllers
             CommonResponseDto<List<PlotForCustomerResponseDto>> propertieslist =
             await _apiService.SendAsync<CommonRequestDto, CommonResponseDto<List<PlotForCustomerResponseDto>>>(plotapiUrl, request, "POST");
 
+
+
             if (propertieslist.Data.Count() > 0)
             {
+                propertieslist = new CommonResponseDto<List<PlotForCustomerResponseDto>> {
+                    Data = propertieslist.Data.Where(x => x.PlotId == plotId).ToList()
+                };
+
                 return View(propertieslist.Data);
             }
             return View(null);
