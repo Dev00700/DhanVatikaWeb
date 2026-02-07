@@ -1,0 +1,189 @@
+﻿@model DhanVatikaWeb.Models.ValidateOTP
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .otp-container {
+            width: 100%;
+            padding: 15px;
+        }
+
+        .otp-card {
+            max-width: 400px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+            .otp-card h2 {
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .otp-card p {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 20px;
+            }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+            .input-group input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 16px;
+                letter-spacing: 4px;
+                text-align: center;
+            }
+
+                .input-group input:focus {
+                    border-color: #667eea;
+                    outline: none;
+                }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            button:hover {
+                background: #5563d6;
+            }
+
+            button:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #e6fffa;
+            color: #047857;
+            border: 1px solid #34d399;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        .resend {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+            .resend a {
+                color: #667eea;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="otp-container">
+        <div class="otp-card">
+            <h2>OTP Verification</h2>
+            <p>Enter the 6-digit OTP sent to your email</p>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert @(ViewBag.Flag == 1 ? "alert-success" : "alert-error")">
+                    @ViewBag.Message
+                </div>
+            }
+
+            @using (Html.BeginForm("ValidateOtp", "SetPassword", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.Email)
+
+                <div class="input-group">
+                    <input type="text"
+                           id="otp"
+                           name="OTP"
+                           maxlength="6"
+                           placeholder="Enter OTP"
+                           required />
+                </div>
+
+                <button type="submit" id="btnVerify" disabled>
+                    Verify OTP
+                </button>
+            }
+
+            <div class="resend">
+                Didn’t receive Email?
+                <a href="/Login/ForgotPassword">Resend Email</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const otp = document.getElementById("otp");
+            const btn = document.getElementById("btnVerify");
+
+            btn.disabled = true;
+
+            otp.addEventListener("input", function () {
+                this.value = this.value.replace(/[^0-9]/g, "");
+
+                if (this.value.length === 6) {
+                    btn.disabled = false;
+                } else {
+                    btn.disabled = true;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

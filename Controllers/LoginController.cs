@@ -2,6 +2,8 @@
 using DhanVatikaWeb.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Net;
+using static System.Net.WebRequestMethods;
 
 namespace DhanVatikaWeb.Controllers
 {
@@ -114,6 +116,120 @@ namespace DhanVatikaWeb.Controllers
                 success = false,
                 message = "Please fill all required fields correctly."
             });
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task< IActionResult> ForgotPassword(ForgotPassword obj)
+        {
+            ForgotPassword _req = new ForgotPassword();
+            _req.Email = obj.Email;
+            var request = new CommonRequestDto<ForgotPassword>
+            {
+                CompanyId = 1,
+                PageRecordCount = 10,
+                PageSize = 1,
+                UserId = 1,
+                Data = _req
+
+            };
+          
+            string apiUrl = baseurl + "Web/CheckCusmtomerEmailService";
+
+            try
+            {
+                CommonResponseDto<ForgotPasswordResponse> res =
+                await _apiService.SendAsync<CommonRequestDto, CommonResponseDto<ForgotPasswordResponse>>(apiUrl, request, "POST");
+
+                if (res.Data.Flag == 0)
+                {
+                    ViewBag.Flag = res.Data.Flag;
+                    ViewBag.Message = res.Data.Message;
+                }
+                else
+                {
+                   
+                    string encryptedEmail = CryptoHelper.Encrypt(obj.Email);
+                    string encodedEmail = WebUtility.UrlEncode(encryptedEmail);
+                    string resetUrl = $"{Request.Scheme}://{Request.Host}/SetPassword/ValidateOtp?e={encodedEmail}";
+
+                    var emailService = new EmailService(configuration);
+                    emailService.SendMail(
+                        obj.Email,
+                        "Change Your Password",
+                        ChangePasswordTemplate(resetUrl, res.Data.OTP)
+                    );
+
+                    ViewBag.Flag = res.Data.Flag;
+                    ViewBag.Message = res.Data.Message;
+                }
+                
+                }catch  (Exception ex)
+            {
+                // Handle exception (e.g., log it)
+               
+            }
+
+            return View();
+        }
+
+        public static string ChangePasswordTemplate(string link,string otp)
+        {
+            return $@"
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+</head>
+<body style='font-family:Segoe UI; background:#f4f6fb; padding:20px;'>
+    <div style='max-width:600px; margin:auto; background:#ffffff; padding:25px; border-radius:8px;'>
+
+        <h2 style='color:#333;'>Password Reset Request</h2>
+
+        <p style='color:#555; font-size:14px;'>
+            We received a request to reset your password.
+            Please use the OTP below to verify your request.
+        </p>
+
+        <div style='text-align:center; margin:20px 0;'>
+            <span style='font-size:24px;
+                         letter-spacing:6px;
+                         font-weight:bold;
+                         color:#667eea;
+                         border:1px dashed #667eea;
+                         padding:10px 20px;
+                         display:inline-block;'>
+                {otp}
+            </span>
+        </div>
+
+        <p style='font-size:13px; color:#777;'>
+            This OTP is valid for <b>10 minutes</b>.
+        </p>
+
+        <div style='text-align:center; margin:25px 0;'>
+            <a href='{link}'
+               style='padding:12px 25px;
+                      background:#667eea;
+                      color:#ffffff;
+                      text-decoration:none;
+                      border-radius:5px;
+                      font-size:14px;'>
+                Change Password
+            </a>
+        </div>
+
+        <p style='font-size:12px; color:#999;'>
+            If you did not request a password reset, please ignore this email.
+        </p>
+
+    </div>
+</body>
+</html>";
         }
     }
 }

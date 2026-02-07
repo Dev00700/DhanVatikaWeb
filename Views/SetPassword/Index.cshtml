@@ -1,0 +1,279 @@
+﻿@model DhanVatikaWeb.Models.PasswordChange
+@{
+    Layout = null;
+}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .change-container {
+            width: 100%;
+            padding: 15px;
+        }
+
+        .change-card {
+            max-width: 400px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+            .change-card h2 {
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .change-card p {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 20px;
+            }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+            .input-group label {
+                font-size: 13px;
+                color: #555;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 14px;
+            }
+
+                .input-group input:focus {
+                    border-color: #667eea;
+                    outline: none;
+                }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+            button:hover {
+                background: #5563d6;
+            }
+
+            button:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+        .links {
+            margin-top: 15px;
+        }
+
+            .links a {
+                text-decoration: none;
+                font-size: 13px;
+                color: #667eea;
+            }
+
+                .links a:hover {
+                    text-decoration: underline;
+                }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #e6fffa;
+            color: #047857;
+            border: 1px solid #34d399;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        #passwordMsg {
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+            .password-wrapper input {
+                width: 100%;
+                padding-right: 40px;
+            }
+
+        .eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="change-container">
+        <div class="change-card">
+            <h2>Change Password</h2>
+            <p>Enter your new password below</p>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert @(ViewBag.Flag ==1 ? "alert-success" : "alert-error")">
+                    @ViewBag.Message
+                </div>
+            }
+
+            @using (Html.BeginForm("Index", "setPassword", FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.Email)
+                @Html.AntiForgeryToken()
+
+                <div class="input-group">
+                    <label>New Password</label>
+                    <div class="password-wrapper">
+                        @Html.PasswordFor(m => m.NewPassword, new {
+                        @class = "form-control",
+                                        id = "newPassword",
+                                        placeholder = "New Password",
+                                        required = "required"
+                                        })
+                        <span class="eye" onclick="togglePassword()">👁</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                @Html.PasswordFor(m => m.ConfirmPassword, new {
+                                @class = "form-control",
+                                id = "confirmPassword",
+                                placeholder = "Confirm Password",
+                                required = "required"
+                                })
+                    <small id="passwordMsg"></small>
+                </div>
+
+                <button type="submit" id="btnChange" disabled>
+                    Update Password
+                </button>
+            }
+
+            <div class="links">
+                <a href="/Login">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const newPwd = document.getElementById("newPassword");
+        const confirmPwd = document.getElementById("confirmPassword");
+        const msg = document.getElementById("passwordMsg");
+        const btn = document.getElementById("btnChange");
+
+        // Page load → button disabled
+        btn.disabled = true;
+
+        function validatePassword() {
+
+            // Jab tak new password empty hai
+            if (newPwd.value === "") {
+                msg.textContent = "";
+                btn.disabled = true;
+                return;
+            }
+
+            // Jab confirm password empty hai
+            if (confirmPwd.value === "") {
+                msg.textContent = "";
+                btn.disabled = true;
+                return;
+            }
+
+            // Match check
+            if (newPwd.value === confirmPwd.value) {
+                msg.textContent = "Passwords match";
+                msg.style.color = "green";
+                btn.disabled = false;
+            } else {
+                msg.textContent = "Passwords do not match";
+                msg.style.color = "red";
+                btn.disabled = true;
+            }
+        }
+
+        // 🔥 Validation fire on typing
+        newPwd.addEventListener("input", validatePassword);
+        confirmPwd.addEventListener("input", validatePassword);
+
+    });
+
+        function togglePassword() {
+        const input = document.getElementById("newPassword");
+        const eye = event.target;
+
+        if (input.type === "password") {
+            input.type = "text";
+            eye.textContent = "🙈";
+        } else {
+            input.type = "password";
+            eye.textContent = "👁";
+        }
+    }
+</script>
+
