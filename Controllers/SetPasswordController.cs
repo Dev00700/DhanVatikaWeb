@@ -3,6 +3,7 @@ using DhanVatikaWeb.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Web;
 
 namespace DhanVatikaWeb.Controllers
 {
@@ -27,7 +28,8 @@ namespace DhanVatikaWeb.Controllers
             if (string.IsNullOrEmpty(e))
                 return RedirectToAction("Login");
 
-            string decryptedEmail = CryptoHelper.Decrypt(WebUtility.UrlDecode(e));
+            //string decryptedEmail = CryptoHelper.Decrypt(WebUtility.UrlDecode(e));
+            string decryptedEmail = WebUtility.UrlDecode(e);
 
             ViewBag.EmailId = decryptedEmail;
             PasswordChange obj = new PasswordChange();
@@ -80,7 +82,8 @@ namespace DhanVatikaWeb.Controllers
             if (string.IsNullOrEmpty(e))
                 return RedirectToAction("Login");
 
-            string decryptedEmail = CryptoHelper.Decrypt(WebUtility.UrlDecode(e));
+            //string decryptedEmail = CryptoHelper.Decrypt(HttpUtility.UrlDecode(e));
+            string decryptedEmail = HttpUtility.UrlDecode(e);
 
             ViewBag.EmailId = decryptedEmail;
             ValidateOTP obj = new ValidateOTP();
@@ -113,11 +116,15 @@ namespace DhanVatikaWeb.Controllers
             {
                 ViewBag.Flag = res.Data.Flag;
                 ViewBag.Message = res.Data.Message;
+                //return RedirectToAction(
+                //                    "Index",
+                //                    "SetPassword",
+                //                    new { e = CryptoHelper.Encrypt(obj.Email) });
+
                 return RedirectToAction(
-   "Index",
-   "SetPassword",
-   new { e = CryptoHelper.Encrypt(obj.Email) }
-);
+                                    "Index",
+                                    "SetPassword",
+                                    new { e = obj.Email });
             }
             else
             {

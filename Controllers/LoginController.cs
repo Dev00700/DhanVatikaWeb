@@ -153,11 +153,11 @@ namespace DhanVatikaWeb.Controllers
                 else
                 {
                    
-                    string encryptedEmail = CryptoHelper.Encrypt(obj.Email);
-                    string encodedEmail = WebUtility.UrlEncode(encryptedEmail);
+                    //string encryptedEmail = CryptoHelper.Encrypt(obj.Email);
+                    string encodedEmail = WebUtility.UrlEncode(obj.Email);
                     string resetUrl = $"{Request.Scheme}://{Request.Host}/SetPassword/ValidateOtp?e={encodedEmail}";
 
-                    var emailService = new EmailService(configuration);
+                   var emailService = new EmailService(configuration);
                     emailService.SendMail(
                         obj.Email,
                         "Change Your Password",
