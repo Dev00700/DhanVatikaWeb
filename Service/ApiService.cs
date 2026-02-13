@@ -29,7 +29,8 @@ namespace DhanVatikaWeb.Service
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"API call failed: {response.StatusCode}");
+                // Optionally: log error here
+                return default(TResponse); // Return default value instead of throwing exception
             }
 
             string result = await response.Content.ReadAsStringAsync();

@@ -36,12 +36,14 @@ namespace DhanVatikaWeb.Controllers
            
             CommonResponseDto<PlotResponseDto> plot =
             await _apiService.SendAsync<CommonRequestDto<PtotWebReq>, CommonResponseDto<PlotResponseDto>>(plotapiUrl, request, "POST");
-
-            if(plot.Data != null)
+            if (plot != null)
             {
-                if(plot.Data.Amenities != null)
+                if (plot.Data != null)
                 {
-                    plot.Data.PlotAmenties = JsonConvert.DeserializeObject<List<AmentiesList>>(plot.Data.Amenities);
+                    if (plot.Data.Amenities != null)
+                    {
+                        plot.Data.PlotAmenties = JsonConvert.DeserializeObject<List<AmentiesList>>(plot.Data.Amenities);
+                    }
                 }
             }
             return View(plot.Data);

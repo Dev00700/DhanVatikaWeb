@@ -42,11 +42,11 @@ namespace DhanVatikaWeb.Controllers
             CommonResponseDto<List<PlotForCustomerResponseDto>> propertieslist =
             await _apiService.SendAsync<CommonRequestDto, CommonResponseDto<List<PlotForCustomerResponseDto>>>(plotapiUrl, request, "POST");
 
-            if (propertieslist.Data.Count() > 0)
+            if (propertieslist != null && propertieslist.Data.Count() > 0)
             {
                 return View(propertieslist.Data);
             }
-            return View(null);
+            return View();
         }
 
         public async Task<IActionResult> PaySlip(long plotId, long CustomerPaymentId)
@@ -74,12 +74,14 @@ namespace DhanVatikaWeb.Controllers
 
             CommonResponseDto<CustomerReceiptResDto> paylist =
             await _apiService.SendAsync<CommonRequestDto, CommonResponseDto<CustomerReceiptResDto>>(plotapiUrl, request, "POST");
-
-            if (paylist.Data != null)
+            if (paylist != null)
             {
-                return View(paylist.Data);
+                if (paylist.Data != null)
+                {
+                    return View(paylist.Data);
+                }
             }
-            return View(null);
+            return View();
         }
     }
 }

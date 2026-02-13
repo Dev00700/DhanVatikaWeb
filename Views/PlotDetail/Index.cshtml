@@ -20,8 +20,16 @@
         <div class="col-lg-6">
           <div class="inner-images">
 
-              @if(@Model.PlotImage != null && Model.PlotImage.Count()>0){
-                        <img src="@Model.PlotImage[0].Image" alt="">
+                    @if (Model != null)
+                    {
+                        if (@Model.PlotImage != null && Model.PlotImage.Count() > 0)
+                        {
+                            <img src="@Model.PlotImage[0].Image" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/assets/img/all-images/others/noimage.png" alt="">
+                        }
                     }
                     else
                     {

@@ -43,7 +43,7 @@ namespace DhanVatikaWeb.Controllers
 
 
 
-            if (propertieslist.Data.Count() > 0)
+            if (propertieslist != null && propertieslist.Data.Count() > 0)
             {
                 propertieslist = new CommonResponseDto<List<PlotForCustomerResponseDto>> {
                     Data = propertieslist.Data.Where(x => x.PlotId == plotId).ToList()
@@ -51,7 +51,7 @@ namespace DhanVatikaWeb.Controllers
 
                 return View(propertieslist.Data);
             }
-            return View(null);
+            return View();
         }
     }
 }

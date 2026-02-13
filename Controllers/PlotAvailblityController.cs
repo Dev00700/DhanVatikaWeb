@@ -54,12 +54,12 @@ namespace DhanVatikaWeb.Controllers
 
             CommonResponseDto<List<LocationDto>> locations =
             await _apiService.SendAsync<CommonRequestDto, CommonResponseDto<List<LocationDto>>>(locationapirul, locationrequest, "POST");
-            if (locations.Data.Count() > 0)
+            if (locations != null && locations.Data.Count() > 0)
             {
                 ViewBag.LocationList = locations.Data;
             }
 
-            if (plot.Data.Count() >0)
+            if (plot != null && plot.Data.Count() >0)
             {
                 return View(plot.Data);
             }
