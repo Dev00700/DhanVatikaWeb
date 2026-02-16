@@ -15,6 +15,10 @@ namespace DhanVatikaWeb.Service
         public async Task<TResponse> SendAsync<TRequest, TResponse>(string url, TRequest requestObj, string method = "POST")
         {
             HttpResponseMessage response;
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
+            _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
 
             if (method.ToUpper() == "GET")
             {
